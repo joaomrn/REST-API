@@ -17,7 +17,6 @@ C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\bin\Deb
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\bin\Debug\netcoreapp2.1\REST-API.runtimeconfig.dev.json
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\bin\Debug\netcoreapp2.1\REST-API.dll
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\bin\Debug\netcoreapp2.1\REST-API.pdb
-C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\obj\Debug\netcoreapp2.1\REST-API.csprojAssemblyReference.cache
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\obj\Debug\netcoreapp2.1\REST-API.csproj.CoreCompileInputs.cache
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\obj\Debug\netcoreapp2.1\REST-API.RazorAssemblyInfo.cache
 C:\_Projetos\C# .NET\api_rest\REST-API\REST-API - 01 Calculator\REST-API\obj\Debug\netcoreapp2.1\REST-API.RazorAssemblyInfo.cs

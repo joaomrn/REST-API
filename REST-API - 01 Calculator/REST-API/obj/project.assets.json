@@ -11803,9 +11803,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\REST-API.csproj",
-      "projectName": "REST-API",
-      "projectPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\REST-API.csproj",
+      "projectUniqueName": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
+      "projectName": "RESTAPI",
+      "projectPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
       "packagesPath": "C:\\Users\\João Vitor\\.nuget\\packages\\",
       "outputPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\obj\\",
       "projectStyle": "PackageReference",

@@ -11803,11 +11803,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API\\REST-API\\REST-API.csproj",
+      "projectUniqueName": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\REST-API.csproj",
       "projectName": "REST-API",
-      "projectPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API\\REST-API\\REST-API.csproj",
+      "projectPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\REST-API.csproj",
       "packagesPath": "C:\\Users\\João Vitor\\.nuget\\packages\\",
-      "outputPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API\\REST-API\\obj\\",
+      "outputPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -11849,6 +11849,7 @@
             "version": "[2.1.2, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true

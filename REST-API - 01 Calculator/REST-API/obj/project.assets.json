@@ -11797,24 +11797,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\João Vitor\\.nuget\\packages\\": {},
+    "C:\\Users\\joaov\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
+      "projectUniqueName": "C:\\_projetos\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
       "projectName": "RESTAPI",
-      "projectPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
-      "packagesPath": "C:\\Users\\João Vitor\\.nuget\\packages\\",
-      "outputPath": "C:\\_Projetos\\C# .NET\\api_rest\\REST-API\\REST-API - 01 Calculator\\REST-API\\obj\\",
+      "projectPath": "C:\\_projetos\\REST-API\\REST-API - 01 Calculator\\REST-API\\RESTAPI.csproj",
+      "packagesPath": "C:\\Users\\joaov\\.nuget\\packages\\",
+      "outputPath": "C:\\_projetos\\REST-API\\REST-API - 01 Calculator\\REST-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\João Vitor\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\joaov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -11856,10 +11859,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

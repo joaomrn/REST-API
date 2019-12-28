@@ -7,10 +7,10 @@ namespace RESTAPI.Model
 {
     public class Person
     {
-        public int Id { get; set; }
-        public string FristName { get; set; }
-        public string LastName { get; set; }
-        public string Adderss { get; set; }
-        public string Gender { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+        public string Endereco { get; set; }
+        public string Genero { get; set; }
     }
 }

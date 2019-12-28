@@ -1,67 +1,85 @@
 ﻿using RESTAPI.Model;
+using RESTAPI.Model.Context;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace RESTAPI.Services.Implementattions
 {
     public class PersonServiceImpl : IPersonService
     {
-        private volatile int count;
+        private MySQLContext _mySQLContext;
+
+        public PersonServiceImpl(MySQLContext mySQLContext)
+        {
+            _mySQLContext = mySQLContext;
+        }
 
         public Person Create(Person person)
         {
+            try
+            {
+                _mySQLContext.Add(person);
+                _mySQLContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             return person;
         }
 
-        public void Delete(long id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = _mySQLContext.Persons.SingleOrDefault(p => p.Id.Equals(id));
+
+                if (result != null)
+                {
+                    _mySQLContext.Persons.Remove(result);
+                    _mySQLContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<Person> FindAll()
         {
-            List<Person> persons = new List<Person>();
-            for (int i = 0; i < 8; i++)
-            {
-                Person person = MockPerson(i);
-                persons.Add(person);
-            }
-            return persons;
+            return _mySQLContext.Persons.ToList();
         }
 
         public Person FindById(long id)
         {
-            return new Person
-            {
-                Id = IncrementAndGet(),
-                FristName = "João",
-                LastName = "Magalhães",
-                Adderss = "Belo Horizonte - Minas Gerais - Brasil",
-                Gender = "Male"
-            };
+            return _mySQLContext.Persons.SingleOrDefault(p => p.Id.Equals(id));
         }
 
         public Person Update(Person person)
         {
+            if (!Exist(person.Id)) return new Person();
+
+            var result = _mySQLContext.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
+            try
+            {
+                _mySQLContext.Entry(result).CurrentValues.SetValues(person);
+                _mySQLContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             return person;
         }
 
-        private Person MockPerson(int i)
+        private bool Exist(int? id)
         {
-            return new Person
-            {
-                Id = IncrementAndGet(),
-                FristName = "Person Name " + i,
-                LastName = "Person LastName " + i,
-                Adderss = "Adderss " + i,
-                Gender = "Male"
-            };
-        }
-
-        private int IncrementAndGet()
-        {
-            return Interlocked.Increment(ref count);
+            return _mySQLContext.Persons.Any(p => p.Id.Equals(id));
         }
     }
 }

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace RESTAPI.Services.Implementattions
+namespace RESTAPI.Repository.Implementattions
 {
-    public class PersonServiceImpl : IPersonService
+    public class PersonRepositoryImpl : IPersonRepository
     {
         private MySQLContext _mySQLContext;
 
-        public PersonServiceImpl(MySQLContext mySQLContext)
+        public PersonRepositoryImpl(MySQLContext mySQLContext)
         {
             _mySQLContext = mySQLContext;
         }
@@ -61,7 +61,7 @@ namespace RESTAPI.Services.Implementattions
 
         public Person Update(Person person)
         {
-            if (!Exist(person.Id)) return new Person();
+            if (!Exists(person.Id)) return null;
 
             var result = _mySQLContext.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
             try
@@ -77,7 +77,7 @@ namespace RESTAPI.Services.Implementattions
             return person;
         }
 
-        private bool Exist(int? id)
+        public bool Exists(long? id)
         {
             return _mySQLContext.Persons.Any(p => p.Id.Equals(id));
         }

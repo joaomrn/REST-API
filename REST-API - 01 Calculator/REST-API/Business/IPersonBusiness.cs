@@ -1,9 +1,9 @@
 ﻿using RESTAPI.Model;
 using System.Collections.Generic;
 
-namespace RESTAPI.Services
+namespace RESTAPI.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindById(long id);

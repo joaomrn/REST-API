@@ -1,36 +1,50 @@
-﻿using RESTAPI.Model;
+﻿using RESTAPI.Data.Converters;
+using RESTAPI.Data.VO;
+using RESTAPI.Model;
+using RESTAPI.Repository.Generic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RESTAPI.Business.Implementattions
 {
     public class BookBusinessImpl : IBookBusiness
     {
-        public Book Create(Book book)
+        private IRepository<Book> _repository;
+
+        private readonly BookConverter _converter;
+
+        public BookBusinessImpl(IRepository<Book> repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _converter = new BookConverter();
+        }
+        public BookVO Create(BookVO book)
+        {
+            var personEntity = _converter.Parse(book);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _repository.Delete(id);
         }
 
-        public List<Book> FindAll()
+        public List<BookVO> FindAll()
         {
-            throw new NotImplementedException();
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        public Book FindById(long id)
+        public BookVO FindById(long id)
         {
-            throw new NotImplementedException();
+            return _converter.Parse(_repository.FindById(id));
         }
 
-        public Book Update(Book book)
+        public BookVO Update(BookVO book)
         {
-            throw new NotImplementedException();
+            var personEntity = _converter.Parse(book);
+            personEntity = _repository.Update(personEntity);
+            return _converter.Parse(personEntity);
         }
     }
 }

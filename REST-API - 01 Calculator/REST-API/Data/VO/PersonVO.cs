@@ -1,13 +1,8 @@
-﻿using RESTAPI.Model.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace RESTAPI.Model
+﻿namespace RESTAPI.Data.VO
 {
-    public class Person : BaseEntity
+    public class PersonVO
     {
+        public long? Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Endereco { get; set; }

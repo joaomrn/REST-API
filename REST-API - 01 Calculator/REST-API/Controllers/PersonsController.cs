@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RESTAPI.Model;
 using RESTAPI.Business;
+using RESTAPI.Data.VO;
 
 namespace REST_API.Controllers
 {
@@ -8,6 +8,7 @@ namespace REST_API.Controllers
     [ApiController]
     public class PersonsController : ControllerBase
     {
+        //Declaração do serviço usado
         private IPersonBusiness _personBusiness;
 
         public PersonsController(IPersonBusiness personBusiness)
@@ -33,7 +34,7 @@ namespace REST_API.Controllers
 
         // POST api/Persons
         [HttpPost]
-        public ActionResult Post([FromBody]Person person)
+        public ActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
             return new ObjectResult(_personBusiness.Create(person));
@@ -41,7 +42,7 @@ namespace REST_API.Controllers
 
         // PUT api/Persons
         [HttpPut]
-        public ActionResult Put([FromBody]Person person)
+        public ActionResult Put([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
             var updatedPerson = _personBusiness.Update(person);

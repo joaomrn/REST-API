@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RESTAPI.Business;
+using RESTAPI.Data.VO;
 using RESTAPI.Model;
+using RESTAPI.Repository.Generic;
 
 namespace RESTAPI.Controllers
 {
@@ -7,6 +10,7 @@ namespace RESTAPI.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        //Declaração do serviço usado
         private IBookBusiness _bookBusiness;
 
         public BooksController(IBookBusiness bookBusiness)
@@ -32,7 +36,7 @@ namespace RESTAPI.Controllers
 
         // POST api/books
         [HttpPost]
-        public ActionResult Post([FromBody]Book book)
+        public ActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             return new ObjectResult(_bookBusiness.Create(book));
@@ -40,7 +44,7 @@ namespace RESTAPI.Controllers
 
         // PUT api/books
         [HttpPut]
-        public ActionResult Put([FromBody]Book book)
+        public ActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             var updatedbook = _bookBusiness.Update(book);

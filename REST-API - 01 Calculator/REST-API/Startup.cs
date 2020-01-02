@@ -12,6 +12,7 @@ using RESTAPI.Repository.Implementattions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using RESTAPI.Repository.Generic;
 
 namespace REST_API
 {
@@ -58,7 +59,11 @@ namespace REST_API
 
             //Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            services.AddScoped<IBookBusiness, BookBusinessImpl>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();            
+
+            //Dependency Injection of GenericReository
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

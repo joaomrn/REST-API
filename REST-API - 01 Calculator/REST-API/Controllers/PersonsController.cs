@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Business;
 using RESTAPI.Data.VO;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
+using Tapioca.HATEOAS;
 
 namespace REST_API.Controllers
 {
@@ -18,6 +21,10 @@ namespace REST_API.Controllers
 
         // GET api/Persons
         [HttpGet]
+        [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -25,6 +32,10 @@ namespace REST_API.Controllers
 
         // GET api/Persons/5
         [HttpGet("{id}")]
+        [SwaggerResponse((200), Type = typeof(PersonVO))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Get(int id)
         {
             var person = _personBusiness.FindById(id);
@@ -34,6 +45,9 @@ namespace REST_API.Controllers
 
         // POST api/Persons
         [HttpPost]
+        [SwaggerResponse((201), Type = typeof(PersonVO))]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -42,6 +56,9 @@ namespace REST_API.Controllers
 
         // PUT api/Persons
         [HttpPut]
+        [SwaggerResponse((202), Type = typeof(PersonVO))]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Put([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -52,6 +69,9 @@ namespace REST_API.Controllers
 
         // DELETE api/Persons/5
         [HttpDelete("{id}")]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Delete(int id)
         {
             _personBusiness.Delete(id);

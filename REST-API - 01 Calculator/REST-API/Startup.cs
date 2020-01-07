@@ -13,6 +13,11 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using RESTAPI.Repository.Generic;
+using Microsoft.Net.Http.Headers;
+using Tapioca.HATEOAS;
+using RESTAPI.Hypermedia;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace REST_API
 {
@@ -42,7 +47,7 @@ namespace REST_API
 
                     var evolve = new Evolve.Evolve(evolveConnection, msg => _logger.LogInformation(msg))
                     {
-                        Locations = new List<string> { "db/migration"},
+                        Locations = new List<string> { "db/migration" },
                         IsEraseDisabled = true
                     };
 
@@ -55,12 +60,33 @@ namespace REST_API
                 }
             }
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
+            services.AddSingleton(filterOptions);
+
+            services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc("v1", new Info
+               {
+                   Title = "RESTFULL API with ASP.NET Core 2.0",
+                   Version = "v1"
+               });
+           });
 
             //Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
             services.AddScoped<IBookBusiness, BookBusinessImpl>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();            
+            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
 
             //Dependency Injection of GenericReository
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -78,8 +104,21 @@ namespace REST_API
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI( c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(name: "DefaultApi", template: "{controller=values}/{id?}");
+            });
         }
     }
 }

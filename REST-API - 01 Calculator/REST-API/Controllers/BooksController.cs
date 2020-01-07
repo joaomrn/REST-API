@@ -3,6 +3,8 @@ using RESTAPI.Business;
 using RESTAPI.Data.VO;
 using RESTAPI.Model;
 using RESTAPI.Repository.Generic;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 
 namespace RESTAPI.Controllers
 {
@@ -20,6 +22,10 @@ namespace RESTAPI.Controllers
 
         // GET api/Books
         [HttpGet]
+        [SwaggerResponse((200), Type = typeof(List<BookVO>))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
@@ -27,6 +33,10 @@ namespace RESTAPI.Controllers
 
         // GET api/Books/5
         [HttpGet("{id}")]
+        [SwaggerResponse((200), Type = typeof(BookVO))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Get(int id)
         {
             var book = _bookBusiness.FindById(id);
@@ -36,6 +46,9 @@ namespace RESTAPI.Controllers
 
         // POST api/books
         [HttpPost]
+        [SwaggerResponse((201), Type = typeof(BookVO))]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -44,6 +57,9 @@ namespace RESTAPI.Controllers
 
         // PUT api/books
         [HttpPut]
+        [SwaggerResponse((202), Type = typeof(BookVO))]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -54,6 +70,9 @@ namespace RESTAPI.Controllers
 
         // DELETE api/books/5
         [HttpDelete("{id}")]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
         public ActionResult Delete(int id)
         {
             _bookBusiness.Delete(id);

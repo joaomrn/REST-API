@@ -20,10 +20,10 @@ namespace RESTAPI.Controllers
         // POST api/books
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Post([FromBody]User user)
+        public object Post([FromBody]User user)
         {
             if (user == null) return BadRequest();
-            return new ObjectResult(_userBusiness.FindByLogin(user));
+            return _userBusiness.FindByLogin(user);
         }
     }
 }

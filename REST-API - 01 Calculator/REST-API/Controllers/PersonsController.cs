@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Business;
 using RESTAPI.Data.VO;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -25,6 +26,7 @@ namespace REST_API.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -36,6 +38,7 @@ namespace REST_API.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Get(int id)
         {
             var person = _personBusiness.FindById(id);
@@ -48,6 +51,7 @@ namespace REST_API.Controllers
         [SwaggerResponse((201), Type = typeof(PersonVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -59,6 +63,7 @@ namespace REST_API.Controllers
         [SwaggerResponse((202), Type = typeof(PersonVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Put([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -72,6 +77,7 @@ namespace REST_API.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Delete(int id)
         {
             _personBusiness.Delete(id);

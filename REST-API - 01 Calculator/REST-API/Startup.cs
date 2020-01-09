@@ -7,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using RESTAPI.Model.Context;
 using RESTAPI.Business;
 using RESTAPI.Business.Implementattions;
-using RESTAPI.Repository;
-using RESTAPI.Repository.Implementattions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,6 +16,12 @@ using Tapioca.HATEOAS;
 using RESTAPI.Hypermedia;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Rewrite;
+using RESTAPI.Repository;
+using RESTAPI.Repository.Implementattions;
+using RESTAPI.Security.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace REST_API
 {
@@ -39,6 +43,89 @@ namespace REST_API
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connectionString));
 
+            //Adding Migrations Support
+            ExecuteMigrations(connectionString);
+
+            var signingConfigurations = new SigningConfigurations();
+            services.AddSingleton(signingConfigurations);
+
+            var tokenConfigurations = new TokenConfigurations();
+
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(
+                _configuration.GetSection("TokenConfigurations")
+            )
+            .Configure(tokenConfigurations);
+
+            services.AddSingleton(tokenConfigurations);
+
+
+            services.AddAuthentication(authOptions =>
+            {
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(bearerOptions =>
+            {
+                var paramsValidation = bearerOptions.TokenValidationParameters;
+                paramsValidation.IssuerSigningKey = signingConfigurations.Key;
+                paramsValidation.ValidAudience = tokenConfigurations.Audience;
+                paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
+
+                // Validates the signing of a received token
+                paramsValidation.ValidateIssuerSigningKey = true;
+
+                // Checks if a received token is still valid
+                paramsValidation.ValidateLifetime = true;
+
+                // Tolerance time for the expiration of a token (used in case
+                // of time synchronization problems between different
+                // computers involved in the communication process)
+                paramsValidation.ClockSkew = TimeSpan.Zero;
+            });
+
+            // Enables the use of the token as a means of
+            // authorizing access to this project's resources
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
+            services.AddSingleton(filterOptions);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "RESTFULL API with ASP.NET Core 2.0",
+                    Version = "v1"
+                });
+            });
+
+            //Dependency Injection
+            services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
+            services.AddScoped<IBookBusiness, BookBusinessImpl>();
+            services.AddScoped<IUserBusiness, UserBusinessImpl>();
+            services.AddScoped<IUserRepository, UserRepositoryImpl>();
+
+            //Dependency Injection of GenericReository
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+        }
+
+        private void ExecuteMigrations(string connectionString)
+        {
             if (_environment.IsDevelopment())
             {
                 try
@@ -59,37 +146,6 @@ namespace REST_API
                     throw;
                 }
             }
-
-            services.AddMvc(options =>
-            {
-                options.RespectBrowserAcceptHeader = true;
-                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
-                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
-
-            })
-            .AddXmlDataContractSerializerFormatters()
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            var filterOptions = new HyperMediaFilterOptions();
-            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
-            services.AddSingleton(filterOptions);
-
-            services.AddSwaggerGen(c =>
-           {
-               c.SwaggerDoc("v1", new Info
-               {
-                   Title = "RESTFULL API with ASP.NET Core 2.0",
-                   Version = "v1"
-               });
-           });
-
-            //Dependency Injection
-            services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
-            services.AddScoped<IBookBusiness, BookBusinessImpl>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
-
-            //Dependency Injection of GenericReository
-            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

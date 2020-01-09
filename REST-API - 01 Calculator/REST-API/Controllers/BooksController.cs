@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Business;
 using RESTAPI.Data.VO;
 using RESTAPI.Model;
@@ -26,6 +27,7 @@ namespace RESTAPI.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
@@ -37,6 +39,7 @@ namespace RESTAPI.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Get(int id)
         {
             var book = _bookBusiness.FindById(id);
@@ -49,6 +52,7 @@ namespace RESTAPI.Controllers
         [SwaggerResponse((201), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -60,6 +64,7 @@ namespace RESTAPI.Controllers
         [SwaggerResponse((202), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
@@ -73,6 +78,7 @@ namespace RESTAPI.Controllers
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
+        [Authorize("Bearer")]
         public ActionResult Delete(int id)
         {
             _bookBusiness.Delete(id);

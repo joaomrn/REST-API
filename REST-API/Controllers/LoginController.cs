@@ -17,7 +17,7 @@ namespace RESTAPI.Controllers
             _userBusiness = userBusiness;
         }
 
-        // POST api/books
+        // POST api/Login
         [AllowAnonymous]
         [HttpPost]
         public object Post([FromBody]User user)

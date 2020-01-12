@@ -120,6 +120,7 @@ namespace REST_API
             services.AddScoped<IUserBusiness, UserBusinessImpl>();
             services.AddScoped<IUserRepository, UserRepositoryImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            services.AddScoped<IFileBusiness, FileBusinessImpl>();
 
             //Dependency Injection of GenericReository
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));

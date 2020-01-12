@@ -10,7 +10,7 @@ namespace RESTAPI.Repository.Generic
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly MySQLContext _mySQLContext;
+        protected readonly MySQLContext _mySQLContext;
         private DbSet<T> dataset;
 
         public GenericRepository(MySQLContext context)
@@ -83,6 +83,27 @@ namespace RESTAPI.Repository.Generic
         public bool Exists(long? id)
         {
             return dataset.Any(p => p.Id.Equals(id));
+        }
+
+        public List<T> FindWithPagedSearch(string query)
+        {
+            return dataset.FromSql<T>(query).ToList();
+        }
+
+        public int GetCount(string query)
+        {
+            var result = "";
+            using (var connection = _mySQLContext.Database.GetDbConnection())
+            {
+                connection.Open();
+
+                using (var comand = connection.CreateCommand())
+                {
+                    comand.CommandText = query;
+                    result = comand.ExecuteScalar().ToString();
+                }
+            }
+            return Int32.Parse(result);
         }
     }
 }

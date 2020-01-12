@@ -33,6 +33,32 @@ namespace REST_API.Controllers
             return Ok(_personBusiness.FindAll());
         }
 
+        // GET api/Persons
+        [HttpGet("find-by-name")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
+        [Authorize("Bearer")]
+        public ActionResult GetByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            return Ok(_personBusiness.FindByName(firstName, lastName));
+        }
+        
+        // GET api/Persons
+        [HttpGet("find-with-page-search/{sortDirection}/{pageSize}/{page}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse(204)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
+        [Authorize("Bearer")]
+        public ActionResult GetPageSearch([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_personBusiness.FindWithPagedSearch(name, sortDirection, pageSize, page));
+        }
+
         // GET api/Persons/5
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilter))]
@@ -73,7 +99,7 @@ namespace REST_API.Controllers
             if (updatedPerson == null) return NoContent();
             return new ObjectResult(updatedPerson);
         }
-        
+
         // PUT api/Persons
         [HttpPatch]
         [SwaggerResponse((202), Type = typeof(PersonVO))]

@@ -11,5 +11,7 @@ namespace RESTAPI.Repository.Generic
         T Update(T item);
         void Delete(int id);
         bool Exists(long? id);
+        List<T> FindWithPagedSearch(string query);
+        int GetCount(string query);
     }
 }

@@ -35,7 +35,7 @@ namespace RESTAPI.Controllers
             return Ok(_bookBusiness.FindAll());
         }
 
-        // GET api/Books/5
+        // GET api/Books/{id}
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilter))]
         [SwaggerResponse((200), Type = typeof(BookVO))]

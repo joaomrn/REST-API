@@ -71,6 +71,20 @@ namespace REST_API.Controllers
             if (updatedPerson == null) return NoContent();
             return new ObjectResult(updatedPerson);
         }
+        
+        // PUT api/Persons
+        [HttpPatch]
+        [SwaggerResponse((202), Type = typeof(PersonVO))]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(401)]
+        [Authorize("Bearer")]
+        public ActionResult Patch([FromBody]PersonVO person)
+        {
+            if (person == null) return BadRequest();
+            var updatedPerson = _personBusiness.Update(person);
+            if (updatedPerson == null) return NoContent();
+            return new ObjectResult(updatedPerson);
+        }
 
         // DELETE api/Persons/5
         [HttpDelete("{id}")]

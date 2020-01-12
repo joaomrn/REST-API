@@ -6,6 +6,7 @@ using RESTAPI.Model;
 using RESTAPI.Repository.Generic;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
+using Tapioca.HATEOAS;
 
 namespace RESTAPI.Controllers
 {
@@ -23,6 +24,7 @@ namespace RESTAPI.Controllers
 
         // GET api/Books
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [SwaggerResponse((200), Type = typeof(List<BookVO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
@@ -35,6 +37,7 @@ namespace RESTAPI.Controllers
 
         // GET api/Books/5
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [SwaggerResponse((200), Type = typeof(BookVO))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]

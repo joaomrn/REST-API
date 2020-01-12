@@ -22,6 +22,7 @@ namespace REST_API.Controllers
 
         // GET api/Persons
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
@@ -34,6 +35,7 @@ namespace REST_API.Controllers
 
         // GET api/Persons/5
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [SwaggerResponse((200), Type = typeof(PersonVO))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
